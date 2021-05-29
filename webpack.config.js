@@ -24,26 +24,7 @@ module.exports = (env) => ({
   mode: isDev ? 'development' : 'production',
 
   entry: {
-    react: {
-      import: 'react',
-      filename: isDev ? 'js/[name].js' : 'js/[id].[contenthash].js',
-    },
-    'react-dom': {
-      import: 'react-dom',
-      filename: isDev ? 'js/[name].js' : 'js/[id].[contenthash].js',
-    },
-    '@chakra-ui': {
-      import: '@chakra-ui/react',
-      filename: isDev ? 'js/[name].js' : 'js/[id].[contenthash].js',
-    },
-    'prop-types': {
-      import: 'prop-types',
-      filename: isDev ? 'js/[name].js' : 'js/[id].[contenthash].js',
-    },
-    app: {
-      dependOn: ['react', 'react-dom', '@chakra-ui', 'prop-types'],
-      import: path.resolve(__dirname, 'src', 'app.tsx'),
-    },
+    app: path.resolve(__dirname, 'src', 'app.tsx'),
   },
 
   output: {
@@ -65,8 +46,21 @@ module.exports = (env) => ({
         use: ['source-map-loader'],
       },
       {
+        test: /\.worker\.(js|ts)$/,
+        exclude: [/node_modules/],
+        use: [
+          'babel-loader',
+          {
+            loader: 'comlink-loader',
+            options: {
+              singleton: true,
+            },
+          },
+        ],
+      },
+      {
         test: /\.[jt]sx?$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/],
         loader: 'babel-loader',
       },
     ],
@@ -102,6 +96,7 @@ module.exports = (env) => ({
     }),
 
     new HtmlPlugin({
+      chunks: ['app'],
       inject: true,
       template: path.resolve(__dirname, 'public', 'index.html'),
     }),
@@ -155,9 +150,6 @@ module.exports = (env) => ({
       automaticNameDelimiter: '.',
       chunks: 'all',
       enforceSizeThreshold: 50000,
-    },
-    runtimeChunk: {
-      name: 'runtime',
     },
   },
 

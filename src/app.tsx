@@ -2,13 +2,19 @@ import './polyfills';
 
 import { ChakraProvider } from '@chakra-ui/react';
 import { render } from 'react-dom';
+import useAsyncEffect from 'use-async-effect';
 
+import { greet } from './core/worker/pwt.worker';
 import { Root } from './ui/components';
-import { useAppStore } from './ui/hooks/use-app-store';
 import { theme } from './ui/theme';
 
 const App = () => {
-  const appStore = useAppStore('saves', []);
+  useAsyncEffect(async () => {
+    console.log('enter');
+    // eslint-disable-next-line @typescript-eslint/await-thenable
+    console.log(await greet('me'));
+    console.log('exit');
+  }, []);
 
   return (
     <>

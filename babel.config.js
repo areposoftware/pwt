@@ -28,6 +28,7 @@ module.exports = (api) => {
           corejs: {
             version: '3.13',
           },
+          modules: false,
           useBuiltIns: 'usage',
         },
       ],
