@@ -1,6 +1,9 @@
 module.exports = (api) => {
   api.cache(true);
 
+  const isDev = process.env.NODE_ENV === 'development';
+  const isProd = !isDev;
+
   return {
     plugins: [
       [
@@ -15,8 +18,8 @@ module.exports = (api) => {
           legacy: true,
         },
       ],
-      'react-refresh/babel',
-    ],
+      isDev && 'react-refresh/babel',
+    ].filter(Boolean),
     presets: [
       [
         '@babel/preset-env',

@@ -1,6 +1,6 @@
 import Dexie from 'dexie';
 
-export class Database extends Dexie {
+export class Game extends Dexie {
   constructor(name: string) {
     super(name);
 

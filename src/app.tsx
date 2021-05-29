@@ -1,13 +1,20 @@
 import './polyfills';
 
+import { ChakraProvider } from '@chakra-ui/react';
 import { render } from 'react-dom';
 
 import { Root } from './ui/components';
+import { useAppStore } from './ui/hooks/use-app-store';
+import { theme } from './ui/theme';
 
 const App = () => {
+  const appStore = useAppStore('saves', []);
+
   return (
     <>
-      <Root />
+      <ChakraProvider theme={theme}>
+        <Root />
+      </ChakraProvider>
     </>
   );
 };

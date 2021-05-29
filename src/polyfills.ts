@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/no-abusive-eslint-disable */
-import 'core-js/stable';
-import 'regenerator-runtime';
+// import 'core-js/stable';
+// import 'regenerator-runtime';
+
 import 'reflect-metadata';
 
 // eslint-disable-next-line
